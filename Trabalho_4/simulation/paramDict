@@ -1,0 +1,32 @@
+// parâmetros geométricos -> blockMeshDict
+L   0.1; 
+D   0.001; 
+r #calc "$D /float(2)";
+
+// parâmetros da malha -> blockMeshDict
+nx 50;
+ny 10;
+nz 10;
+
+    //- Half angle of wedge in degrees
+halfAngle 45.0;
+
+radHalfAngle    #calc "degToRad($halfAngle)";
+y               #calc "$r*sin($radHalfAngle)";
+minY            #calc "-1.0*$y";
+z               #calc "$r*cos($radHalfAngle)";
+minZ            #calc "-1.0*$z";
+
+// parâmetros físicos - T = 20° C -> transportProperties
+Re 1000;
+visc 1.004e-6; 
+
+// condições de contorno -> U
+Ui #calc "float($Re) * $visc / $D";
+
+// parâmetros de controle -> controlDict
+tf 1000;
+dt 10;
+wt 50;
+
+
